@@ -1,10 +1,3 @@
-{-# LANGUAGE DataKinds #-}
-{-# LANGUAGE FlexibleContexts #-}
-{-# LANGUAGE FlexibleInstances #-}
-{-# LANGUAGE MultiParamTypeClasses #-}
-{-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE ScopedTypeVariables #-}
-
 module Servant.PureScript.CodeGen where
 
 import Control.Lens hiding (List)
@@ -52,7 +45,7 @@ getReaderParams opts allParams =
         -- Helpers
         toPair (Param n t) = (n, t)
         fromPair (n, t) = Param n t
-        useOld = (\ _ x -> x)
+        useOld = (\_ x -> x)
      in
         rParams
 
