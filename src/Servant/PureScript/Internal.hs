@@ -1,3 +1,5 @@
+{-# LANGUAGE CPP #-}
+
 module Servant.PureScript.Internal where
 
 import Control.Lens
@@ -77,6 +79,13 @@ data Settings = Settings
     }
 makeLenses ''Settings
 
+importLine :: Text -> Set Text -> ImportLine
+#if MIN_VERSION_purescript_bridge(0,15,0)
+importLine txt = ImportLine txt Nothing
+#else
+importLine = ImportLine
+#endif
+
 defaultSettings :: Settings
 defaultSettings =
     Settings
@@ -84,19 +93,19 @@ defaultSettings =
         , _readerParams = Set.singleton baseURLId
         , _standardImports =
             importsFromList
-                [ ImportLine "Control.Monad.Reader.Class" (Set.fromList ["class MonadAsk", "ask"])
-                , ImportLine "Control.Monad.Error.Class" (Set.fromList ["class MonadError"])
-                , ImportLine "Control.Monad.Aff.Class" (Set.fromList ["class MonadAff"])
-                , ImportLine "Network.HTTP.Affjax" (Set.fromList ["AJAX"])
-                , ImportLine "Data.Nullable" (Set.fromList ["toNullable"])
-                , ImportLine "Servant.PureScript.Affjax" (Set.fromList ["AjaxError", "defaultRequest", "affjax"])
-                , ImportLine "Servant.PureScript.Settings" (Set.fromList ["SPSettings_(..)", "SPSettingsDecodeJson_(..)", "SPSettingsEncodeJson_(..)", "gDefaultToURLPiece"])
-                , ImportLine "Servant.PureScript.Util" (Set.fromList ["encodeListQuery", "encodeURLPiece", "encodeQueryItem", "getResult", "encodeHeader"])
-                , ImportLine "Prim" (Set.fromList ["String"]) -- For baseURL!
-                , ImportLine "Data.Maybe" (Set.fromList ["Maybe(..)"])
-                , ImportLine "Data.String" (Set.fromList ["joinWith"])
-                , ImportLine "Data.Array" (Set.fromList ["catMaybes", "null"])
-                , ImportLine "Data.Argonaut.Core" (Set.fromList ["stringify"])
+                [ importLine "Control.Monad.Reader.Class" (Set.fromList ["class MonadAsk", "ask"])
+                , importLine "Control.Monad.Error.Class" (Set.fromList ["class MonadError"])
+                , importLine "Control.Monad.Aff.Class" (Set.fromList ["class MonadAff"])
+                , importLine "Network.HTTP.Affjax" (Set.fromList ["AJAX"])
+                , importLine "Data.Nullable" (Set.fromList ["toNullable"])
+                , importLine "Servant.PureScript.Affjax" (Set.fromList ["AjaxError", "defaultRequest", "affjax"])
+                , importLine "Servant.PureScript.Settings" (Set.fromList ["SPSettings_(..)", "SPSettingsDecodeJson_(..)", "SPSettingsEncodeJson_(..)", "gDefaultToURLPiece"])
+                , importLine "Servant.PureScript.Util" (Set.fromList ["encodeListQuery", "encodeURLPiece", "encodeQueryItem", "getResult", "encodeHeader"])
+                , importLine "Prim" (Set.fromList ["String"]) -- For baseURL!
+                , importLine "Data.Maybe" (Set.fromList ["Maybe(..)"])
+                , importLine "Data.String" (Set.fromList ["joinWith"])
+                , importLine "Data.Array" (Set.fromList ["catMaybes", "null"])
+                , importLine "Data.Argonaut.Core" (Set.fromList ["stringify"])
                 ]
         , _generateSubscriberAPI = False
         }

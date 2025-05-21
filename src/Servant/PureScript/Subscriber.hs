@@ -42,7 +42,7 @@ genModule opts allReqs =
         apiImports = reqsToImportLines reqs
         webAPIImports =
             importsFromList
-                [ ImportLine (opts ^. apiModuleName) (Set.fromList ["SPParams_(..)"])
+                [ importLine (opts ^. apiModuleName) (Set.fromList ["SPParams_(..)"])
                 ]
         imports =
             _standardImports opts

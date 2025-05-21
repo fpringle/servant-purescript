@@ -37,14 +37,14 @@ import Text.PrettyPrint.Mainland
 subscriberImportLines :: Map Text ImportLine
 subscriberImportLines =
     importsFromList
-        [ ImportLine
+        [ importLine
             "Servant.Subscriber.Subscriptions"
             ( Set.fromList
                 [ "Subscriptions"
                 , "makeSubscriptions"
                 ]
             )
-        , ImportLine
+        , importLine
             "Servant.Subscriber.Util"
             ( Set.fromList
                 [ "toUserType"
@@ -54,10 +54,10 @@ subscriberImportLines =
                 , "TypedToUser"
                 ]
             )
-        , ImportLine "Servant.Subscriber" (Set.fromList ["ToUserType"])
-        , ImportLine "Servant.Subscriber.Request" (Set.fromList ["HttpRequest(..)"])
-        , ImportLine "Servant.Subscriber.Types" (Set.fromList ["Path(..)"])
-        , ImportLine "Data.Tuple" (Set.fromList ["Tuple(..)"])
+        , importLine "Servant.Subscriber" (Set.fromList ["ToUserType"])
+        , importLine "Servant.Subscriber.Request" (Set.fromList ["HttpRequest(..)"])
+        , importLine "Servant.Subscriber.Types" (Set.fromList ["Path(..)"])
+        , importLine "Data.Tuple" (Set.fromList ["Tuple(..)"])
         ]
 
 genModule :: Settings -> [Req PSType] -> Doc
@@ -68,7 +68,7 @@ genModule opts reqs =
         apiImports = reqsToImportLines reqs
         webAPIImports =
             importsFromList
-                [ ImportLine (opts ^. apiModuleName) (Set.fromList ["SPParams_(..)"])
+                [ importLine (opts ^. apiModuleName) (Set.fromList ["SPParams_(..)"])
                 ]
         imports =
             _standardImports opts
